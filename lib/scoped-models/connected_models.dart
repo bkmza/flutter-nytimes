@@ -18,6 +18,11 @@ mixin UtilityModel on ConnectedNamesModel {
 }
 
 mixin NamesModel on ConnectedNamesModel {
+
+   List<Name> get allNames {
+    return List.from(_names);
+  }
+
   Future<Null> fetchNames() {
     _isLoading = true;
     notifyListeners();
@@ -33,8 +38,19 @@ mixin NamesModel on ConnectedNamesModel {
         return;
       }
       namesListData.forEach((String key, dynamic data) {
-        Set<String> set = Set.from(data['results']);
-        set.forEach((element) => print(element));
+        if (key == 'results') {
+          Set<dynamic> set = Set.from(data);
+          set.forEach((nameData) {
+            final Name item = Name(
+                listName: nameData['list_name'],
+                displayName: nameData['display_name'],
+                listNameEncoded: nameData['list_name_encoded'],
+                oldestPublishedDate: nameData['oldest_published_date'],
+                newestPublishedDate: nameData['newest_published_date'],
+                updated: nameData['updated']);
+            fetchedNamesList.add(item);
+          });
+        }
       });
 
       _isLoading = false;

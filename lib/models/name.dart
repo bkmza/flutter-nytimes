@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 class Name {
-  final String list_name;
-  final String display_name;
-  final String list_name_encoded;
-  final String oldest_published_date;
-  final String newest_published_date;
+  final String listName;
+  final String displayName;
+  final String listNameEncoded;
+  final String oldestPublishedDate;
+  final String newestPublishedDate;
   final String updated;
 
   Name(
-      {@required this.list_name,
-      @required this.display_name,
-      @required this.list_name_encoded,
-      @required this.oldest_published_date,
-      @required this.newest_published_date,
+      {@required this.listName,
+      @required this.displayName,
+      @required this.listNameEncoded,
+      @required this.oldestPublishedDate,
+      @required this.newestPublishedDate,
       @required this.updated});
 }
