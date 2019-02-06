@@ -18,8 +18,7 @@ mixin UtilityModel on ConnectedNamesModel {
 }
 
 mixin NamesModel on ConnectedNamesModel {
-
-   List<Name> get allNames {
+  List<Name> get allNames {
     return List.from(_names);
   }
 
@@ -52,6 +51,7 @@ mixin NamesModel on ConnectedNamesModel {
           });
         }
       });
+      _names = fetchedNamesList;
 
       _isLoading = false;
       notifyListeners();

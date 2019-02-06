@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../scoped-models/main.dart';
+import '../widgets/names.dart';
 
 class NameListPage extends StatefulWidget {
   final MainModel model;
@@ -9,10 +10,12 @@ class NameListPage extends StatefulWidget {
   NameListPage(this.model);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<StatefulWidget> createState() {
+    return _NameListPageState();
+  }
 }
 
-class _MyHomePageState extends State<NameListPage> {
+class _NameListPageState extends State<NameListPage> {
   @override
   initState() {
     widget.model.fetchNames();
@@ -24,7 +27,7 @@ class _MyHomePageState extends State<NameListPage> {
       builder: (BuildContext context, Widget widget, MainModel model) {
         Widget content = Center(child: Text('No items found.'));
         if (model.allNames.length > 0 && !model.isLoading) {
-          // content = Products();
+          content = Names();
         } else if (model.isLoading) {
           content = Center(child: CircularProgressIndicator());
         }
