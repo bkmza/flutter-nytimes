@@ -3,6 +3,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 import '../scoped-models/main.dart';
 import '../widgets/names.dart';
+import '../widgets/ui_elements/adaptive_indicator.dart';
 
 class NameListPage extends StatefulWidget {
   final MainModel model;
@@ -29,12 +30,13 @@ class _NameListPageState extends State<NameListPage> {
         if (model.allNames.length > 0 && !model.isLoading) {
           content = Names();
         } else if (model.isLoading) {
-          content = Center(child: CircularProgressIndicator());
+          content = Center(child: CircularProgressIndicator() /*AdaptiveProgressIndicator()*/);
         }
-        return RefreshIndicator(
-          onRefresh: model.fetchNames,
-          child: content,
-        );
+        // return RefreshIndicator(
+        //   onRefresh: model.fetchNames,
+        //   child: content,
+        // );
+        return content;
       },
     );
   }

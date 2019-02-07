@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:flutter/services.dart';
 
 import './scoped-models/main.dart';
 import './pages/name_list.dart';
@@ -18,6 +20,27 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final MainModel _model = MainModel();
+
+  // TODO: Part 18: native code
+  // final _platformChannel = MethodChannel('flutter-course.com/battery');
+  // Future<Null> _getBatteryLevel() async {
+  //   String batteryLevel;
+  //   try {
+  //     final int result = await _platformChannel.invokeMethod('getBatteryLevel');
+  //     batteryLevel = 'Battery level is $result %.';
+  //   } catch (error) { 
+  //     batteryLevel = 'Failed to get battery level.';
+  //     print(error);
+  //   }
+  //   print('$batteryLevel');
+  // }
+
+  @override
+  void initState() {
+    // TODO: Part 18: native code
+    // _getBatteryLevel();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
