@@ -6,7 +6,7 @@ import '../scoped-models/main.dart';
 import '../widgets/name_card.dart';
 
 class Names extends StatelessWidget {
-  Widget _buildNameList(List<Name> names) {
+  Widget _buildNameList(List<Name> names, Function selectName) {
     Widget nameCard;
 
     if (names.length > 0) {
@@ -14,7 +14,10 @@ class Names extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return new InkWell(
               onTap: () {
-                print("Card Clicked");
+                String selectedName = names[index].listNameEncoded;
+                selectName(selectedName);
+                Navigator.pushNamed<bool>(context, '/names/' + selectedName)
+                      .then((_) => selectName(null));
               },
               child: NameCard(names[index]));
         },
@@ -32,7 +35,7 @@ class Names extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(
       builder: (BuildContext context, Widget child, MainModel model) {
-        return _buildNameList(model.allNames);
+        return _buildNameList(model.allNames, model.selectName);
       },
     );
   }

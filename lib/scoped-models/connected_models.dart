@@ -4,9 +4,12 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/name.dart';
+import '../models/book.dart';
+import '../shared/global_config.dart';
 
 mixin ConnectedNamesModel on Model {
   List<Name> _names = [];
+  List<Book> _books = [];
   String _selectedName;
   bool _isLoading = false;
 }
@@ -22,12 +25,22 @@ mixin NamesModel on ConnectedNamesModel {
     return List.from(_names);
   }
 
+    List<Book> get allBooks {
+    return List.from(_books);
+  }
+
+  void selectName(String name) {
+    _selectedName = name;
+    if (_selectedName != null) {
+      notifyListeners();
+    }
+  }
+
   Future<Null> fetchNames() {
     _isLoading = true;
     notifyListeners();
     return http
-        .get(
-            'https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=lb5w982Gf0A7wdyr3mB76lPEmIYBZTiY')
+        .get('$baseURL/$getNamesEndpoint?api-key=$apiKey')
         .then<Null>((http.Response response) {
       final List<Name> fetchedNamesList = [];
       final Map<String, dynamic> namesListData = json.decode(response.body);
@@ -52,6 +65,49 @@ mixin NamesModel on ConnectedNamesModel {
         }
       });
       _names = fetchedNamesList;
+
+      _isLoading = false;
+      notifyListeners();
+    }).catchError((error) {
+      _isLoading = false;
+      notifyListeners();
+    });
+  }
+
+  Future<Null> fetchBooks(String selectedName) {
+    _isLoading = true;
+    notifyListeners();
+    return http
+        .get('$baseURL/$getListEndpoint?list=$selectedName&api-key=$apiKey')
+        .then<Null>((http.Response response) {
+      final List<Book> fetchedBooksList = [];
+      final Map<String, dynamic> booksListData = json.decode(response.body);
+      if (booksListData == null) {
+        _isLoading = false;
+        notifyListeners();
+        return;
+      }
+      booksListData.forEach((String key, dynamic data) {
+        if (key == 'results') {
+          print("inside");
+          List<Map<String, dynamic>> resultList = List.from(data);
+          resultList.forEach((item) {
+            item.forEach((String itemKey, dynamic itemData) {
+              if (itemKey == 'book_details') {
+                Map mapBookDetails = List<Map>.from(itemData)[0];
+                final Book item = Book(
+                      title: mapBookDetails['title'],
+                      description: mapBookDetails['description'],
+                      contributor: mapBookDetails['contributor'],
+                      author: mapBookDetails['author'],
+                      publisher: mapBookDetails['publisher']);
+                  fetchedBooksList.add(item);
+              }
+            });
+          });
+        }
+      });
+      _books = fetchedBooksList;
 
       _isLoading = false;
       notifyListeners();
