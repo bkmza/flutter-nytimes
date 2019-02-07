@@ -31,6 +31,27 @@ class BookCard extends StatelessWidget {
         ));
   }
 
+  Widget _buildBuyBookRow(BuildContext context) {
+    return ButtonBar(
+      alignment: MainAxisAlignment.center,
+      children: <Widget>[
+        IconButton(
+          icon: Icon(Icons.attach_money),
+          onPressed: () {
+            Navigator.pushNamed<bool>(
+                context, '/webview/' + Uri.encodeComponent(book.amazonURL));
+          },
+        ),
+        IconButton(
+          icon: Icon(Icons.info_outline),
+          onPressed: () {
+            Navigator.pushNamed<bool>(context, '/webview/' + book.amazonURL);
+          },
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -38,11 +59,18 @@ class BookCard extends StatelessWidget {
         children: <Widget>[
           _buildTitleRow(),
           Divider(color: Colors.grey, indent: 15.0),
+          FadeInImage(
+            height: 250.0,
+            fit: BoxFit.cover,
+            placeholder: AssetImage('assets/default_image.png'),
+            image: NetworkImage(''),
+          ),
           DescriptionDefault(book.description),
           SizedBox(height: 5.0),
           _buildIconTagRow(Icons.account_circle, book.author),
           _buildIconTagRow(Icons.verified_user, book.publisher),
-          _buildIconTagRow(Icons.account_balance, book.contributor)
+          _buildIconTagRow(Icons.account_balance, book.contributor),
+          _buildBuyBookRow(context)
         ],
       ),
     );

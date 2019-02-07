@@ -25,7 +25,7 @@ mixin NamesModel on ConnectedNamesModel {
     return List.from(_names);
   }
 
-    List<Book> get allBooks {
+  List<Book> get allBooks {
     return List.from(_books);
   }
 
@@ -88,20 +88,24 @@ mixin NamesModel on ConnectedNamesModel {
         return;
       }
       booksListData.forEach((String key, dynamic data) {
+        String amazonURL = '';
         if (key == 'results') {
-          print("inside");
           List<Map<String, dynamic>> resultList = List.from(data);
           resultList.forEach((item) {
             item.forEach((String itemKey, dynamic itemData) {
+              if (itemKey == 'amazon_product_url') {
+                amazonURL = itemData;
+              }
               if (itemKey == 'book_details') {
                 Map mapBookDetails = List<Map>.from(itemData)[0];
                 final Book item = Book(
-                      title: mapBookDetails['title'],
-                      description: mapBookDetails['description'],
-                      contributor: mapBookDetails['contributor'],
-                      author: mapBookDetails['author'],
-                      publisher: mapBookDetails['publisher']);
-                  fetchedBooksList.add(item);
+                    title: mapBookDetails['title'],
+                    description: mapBookDetails['description'],
+                    contributor: mapBookDetails['contributor'],
+                    author: mapBookDetails['author'],
+                    publisher: mapBookDetails['publisher'],
+                    amazonURL: amazonURL);
+                fetchedBooksList.add(item);
               }
             });
           });
