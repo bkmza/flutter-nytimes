@@ -5,7 +5,7 @@ class AdaptiveProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme.of(context).platform == TargetPlatform.iOS
-        ? CupertinoActivityIndicator()
+        ? CupertinoActivityIndicator(radius: 20,)
         : CircularProgressIndicator();
   }
 }

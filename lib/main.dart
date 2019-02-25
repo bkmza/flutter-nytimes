@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
 
 import './scoped-models/main.dart';
 import './pages/name_list.dart';
@@ -14,6 +15,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
+    // debugPaintBaselinesEnabled = true;
     return _MyAppState();
   }
 }
@@ -28,7 +30,7 @@ class _MyAppState extends State<MyApp> {
   //   try {
   //     final int result = await _platformChannel.invokeMethod('getBatteryLevel');
   //     batteryLevel = 'Battery level is $result %.';
-  //   } catch (error) { 
+  //   } catch (error) {
   //     batteryLevel = 'Failed to get battery level.';
   //     print(error);
   //   }
